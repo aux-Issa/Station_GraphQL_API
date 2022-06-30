@@ -1,0 +1,17 @@
+version: "3.5"
+services:
+  postgresql:
+    build: ./
+    container_name: postgre_station
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=postgres
+    - POSTGRES_INITDB_ARGS=--encoding=UTF-8
+    ports:
+      - "5432:5432"
+    user: root
+    volumes:
+      - pg-data-station:/var/lib/pgdata
+volumes:
+  pg-data-station:
+    driver: local

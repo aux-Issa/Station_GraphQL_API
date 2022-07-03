@@ -3,6 +3,8 @@ package utils
 import (
 	"database/sql"
 	"log"
+
+	_ "github.com/lib/pq"
 )
 
 // db接続: https://qiita.com/taka23kz/items/cb7ae9ac6cf343b3dec2
@@ -17,7 +19,7 @@ func openDB(dbDriver string, dsn string) (*sql.DB, error) {
 
 func SetupDB() (*sql.DB, error) {
 	dbDriver := "postgres"
-	dsn := "host=127.0.0.1 port=5432 user=postgres password=postgres dbname=pg-data-station sslmode=disable"
+	dsn := "host=192.168.11.11 port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"
 	db, err := openDB(dbDriver, dsn)
 
 	// defer db.Close()

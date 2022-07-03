@@ -35,13 +35,14 @@ create table company
 );
 comment on table company is 'company20220401.csv';
 
-create table join
+create table junction
 (
     line_cd integer not null,
     station_cd1 integer not null,
     station_cd2 integer not null,
     PRIMARY KEY (line_cd,station_cd1,station_cd2)
 );
+comment on table junction is 'join20220413.csv';
 
 create table line
 (
@@ -60,3 +61,4 @@ create table line
     e_sort integer,
     PRIMARY KEY (line_cd)
 );
+comment on table line is 'line20220323free.csv';

@@ -4,7 +4,9 @@ import (
 	"context"
 	"errors"
 
+	"github.com/aux-Issa/Station_GraphQL_API/graph/model"
 	"github.com/aux-Issa/Station_GraphQL_API/models"
+	"github.com/aux-Issa/Station_GraphQL_API/utils"
 )
 
 // This file will not be regenerated automatically.
@@ -13,8 +15,10 @@ import (
 
 type Resolver struct{}
 
-func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*models.StationConn, error) {
-	stations, err := models.StationConnsByStationCD(db, *stationCd)
+func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.Station, error) {
+	db, err := utils.SetupDB()
+	// models.StationConnsByStationCD(*stationCd)
+	stations, err := models.StationConnsByStationCD(ctx, db, *stationCd)
 	if err != nil {
 		return nil, err
 	}
@@ -52,15 +56,13 @@ func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*models.
 			Address:     nil,
 		})
 	}
-	return &model.StationConn{
-		Station: &model.Station{
-			LineName:    &first.LineName,
-			StationCd:   first.StationCd,
-			StationName: first.StationName,
-			Address:     &first.Address,
-		},
-		TransferStation: transfers,
+	return &model.Station{
+		LineName:        &first.LineName,
+		StationCd:       first.StationCd,
+		StationName:     first.StationName,
+		Address:         &first.Address,
 		BeforeStation:   beforeStation,
 		AfterStation:    afterStation,
+		TransferStation: transfers,
 	}, nil
 }

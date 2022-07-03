@@ -1,7 +1,7 @@
 # Station_GraphQL_API
 ## Data source
 https://ekidata.jp/dl/?p=1
-## create DB refering to the sql_file
+## create DB referring to the sql_file
 `docker volume create pg-data-station`  
 `docker-compose up --build`
 ## verify completion of DB setup

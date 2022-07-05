@@ -19,6 +19,7 @@ func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.S
 	db, err := utils.SetupDB()
 	// models.StationConnsByStationCD(*stationCd)
 	stations, err := models.StationConnsByStationCD(ctx, db, *stationCd)
+	// stations, err := models.StationByCDsByStationCD(ctx, db, *stationCd)
 	if err != nil {
 		return nil, err
 	}
@@ -66,3 +67,5 @@ func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.S
 		TransferStation: transfers,
 	}, nil
 }
+
+// todo: afterStation, bsforeStationnのxo生成とresolverの実装

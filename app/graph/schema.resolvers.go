@@ -23,14 +23,30 @@ func (r *queryResolver) StationByCd(ctx context.Context, stationCd *int) (*model
 	return r.getStationByCD(ctx, stationCd)
 }
 
+func (r *stationResolver) BeforeStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *stationResolver) AfterStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *stationResolver) TransferStation(ctx context.Context, obj *model.Station) ([]*model.Station, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
+// Station returns generated.StationResolver implementation.
+func (r *Resolver) Station() generated.StationResolver { return &stationResolver{r} }
+
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
+type stationResolver struct{ *Resolver }
 
 // !!! WARNING !!!
 // The code below was going to be deleted when updating resolvers. It has been copied here so you have

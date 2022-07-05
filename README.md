@@ -57,3 +57,32 @@ where st.station_cd = %%stationCD int%%
   and st.e_status = 0
 order by st.e_sort
 ENDSQL  `
+### prevent overfetch by spliting resolver  
+`xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T StationByCD -o models/ << ENDSQL
+select l.line_cd, l.line_name, s.station_cd, s.station_g_cd, s.station_name, s.address
+from station s
+         inner join line l on s.line_cd = l.line_cd
+where s.station_cd = %%stationCD int%%
+  and s.e_status = 0
+ENDSQL
+`
+
+`xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T Transfer -o models/ << ENDSQL
+select s.station_cd,
+       s.station_name,
+       s.station_g_cd,
+       s.address,
+       ls.line_cd,
+       ls.line_name,
+       COALESCE(lt.line_cd, 0)     as transfer_line_cd,
+       COALESCE(lt.line_name, '')   as transfer_line_name,
+       COALESCE(t.station_cd, 0)   as transfer_station_cd,
+       COALESCE(t.station_name, '') as transfer_station_name,
+       COALESCE(t.address, '')      as transfer_address
+from station s
+        left outer join station t on s.station_g_cd = t.station_g_cd and s.station_cd <> t.station_cd
+        left outer join line ls on s.line_cd = ls.line_cd
+        left outer join line lt on t.line_cd = lt.line_cd
+where s.station_cd = %%stationCD int%%
+ENDSQL
+`

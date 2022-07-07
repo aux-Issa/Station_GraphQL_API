@@ -68,4 +68,5 @@ func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.S
 	}, nil
 }
 
-// todo: afterStation, bsforeStationnのxo生成とresolverの実装
+// TODO: afterStation
+// TODO: bsforeStationnのxo生成とresolverの実装

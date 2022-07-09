@@ -17,6 +17,7 @@ func openDB(dbDriver string, dsn string) (*sql.DB, error) {
 	return db, err
 }
 
+// packageとして関数を外部から呼び出す場合はUpperCamelCaseで関数名を書く
 func SetupDB() (*sql.DB, error) {
 	dbDriver := "postgres"
 	dsn := "host=192.168.11.11 port=5432 user=postgres password=postgres dbname=postgres sslmode=disable"

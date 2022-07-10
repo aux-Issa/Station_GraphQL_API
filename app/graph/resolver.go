@@ -3,6 +3,7 @@ package graph
 import (
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/aux-Issa/Station_GraphQL_API/graph/model"
 	"github.com/aux-Issa/Station_GraphQL_API/models"
@@ -46,8 +47,19 @@ func (r *Resolver) getTransferStaion(ctx context.Context, obj *model.Station) ([
 	if err != nil {
 		return nil, err
 	}
-	resp := make([]*model.Station, 0, len(records))
-	return resp, nil
+	// resp := make([]*model.Station, 0, len(records))
+	transferStations := make([]*model.Station, len(records))
+	for _, record := range records {
+		// &: メモリのaddressを示すので，型の＊と&はセットで使う
+		fmt.Println(record, record.TransferStationCd, &record.TransferStationCd, record.TransferLineName, &record.TransferStationName)
+		transferStations = append(transferStations, &model.Station{
+			StationCd:   record.TransferStationCd,
+			StationName: record.TransferStationName,
+			LineName:    &record.TransferLineName,
+			Address:     &record.TransferAddress,
+		})
+	}
+	return transferStations, nil
 }
 
 // TODO: afterStationのxo生成とresolverの実装

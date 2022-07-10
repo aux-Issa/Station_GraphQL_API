@@ -33,7 +33,7 @@ func (r *stationResolver) AfterStation(ctx context.Context, obj *model.Station) 
 
 func (r *stationResolver) TransferStation(ctx context.Context, obj *model.Station) ([]*model.Station, error) {
 	// ここに実装を進めていこうと
-	return nil, nil
+	return r.getTransferStaion(ctx, obj)
 }
 
 // Mutation returns generated.MutationResolver implementation.

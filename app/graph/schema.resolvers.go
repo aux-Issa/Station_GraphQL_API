@@ -32,7 +32,8 @@ func (r *stationResolver) AfterStation(ctx context.Context, obj *model.Station) 
 }
 
 func (r *stationResolver) TransferStation(ctx context.Context, obj *model.Station) ([]*model.Station, error) {
-	panic(fmt.Errorf("not implemented"))
+	// ここに実装を進めていこうと
+	return nil, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

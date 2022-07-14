@@ -126,3 +126,33 @@ from station s
 where s.station_cd = %%stationCD int%%
 ENDSQL
 `
+#### 前の駅
+
+`
+xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T BeforeStation -o models/ << ENDSQL
+<!-- joinされたテーブル(st2)から前の駅を抽出 -->
+select st2.station_cd,
+       st2.station_name,
+       st2.station_g_cd,
+       st2.address,
+       s2l.line_cd,
+       s2l.line_name,
+       COALESCE(s2l.line_cd, 0)     as before_station_line_cd,
+       COALESCE(s2l.line_name, '')   as before_station_line_name,
+       COALESCE(st2.station_cd, 0)   as before_station_cd,
+       COALESCE(st2.station_name, '') as before_station_name,
+       COALESCE(st2.address, '')      as before_station_address
+
+from station st
+        inner join line li on st.line_cd = li.line_cd 
+        left outer join junction sjb on st.line_cd = sjb.line_cd and st.station_cd = sjb.station_cd2 
+        left outer join junction sja on st.line_cd = sja.line_cd and st.station_cd = sja.station_cd1 
+        <!-- 接続駅(sjb)と前の駅(st2)をジョイン -->
+        left outer join station st2 on sjb.line_cd = st2.line_cd and sjb.station_cd1 = st2.station_cd 
+        left outer join line s2l on st2.line_cd = s2l.line_cd 
+        <!-- 接続駅(sja)と後の駅(st3)をジョイン -->
+        left outer join station st3 on sja.line_cd = st3.line_cd and sja.station_cd2 = st3.station_cd 
+
+where st.station_cd = %%stationCD int%%
+ENDSQL
+`

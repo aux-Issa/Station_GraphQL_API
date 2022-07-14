@@ -18,8 +18,6 @@ type Resolver struct{}
 
 func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.Station, error) {
 	db, err := utils.SetupDB()
-	// models.StationConnsByStationCD(*stationCd)
-	// stations, err := models.StationConnsByStationCD(ctx, db, *stationCd)
 	stations, err := models.StationByCDsByStationCD(ctx, db, *stationCd)
 	if err != nil {
 		return nil, err
@@ -27,8 +25,8 @@ func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.S
 	if len(stations) == 0 {
 		return nil, errors.New("not found")
 	}
-	first := stations[0]
 
+	first := stations[0]
 	return &model.Station{
 		LineName:    &first.LineName,
 		StationCd:   first.StationCd,
@@ -84,8 +82,8 @@ func (r *Resolver) getTransferStaion(ctx context.Context, obj *model.Station) ([
 	return transferStations, nil
 }
 
+// FIXME: baforeとafterで取得している駅の順番が逆なのでxoのクエリを見直す
 func (r *Resolver) getBeforeStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
-	// todo: xo query for before station
 	db, err := utils.SetupDB()
 	if err != nil {
 		return nil, err
@@ -106,7 +104,24 @@ func (r *Resolver) getBeforeStation(ctx context.Context, obj *model.Station) (*m
 	}, nil
 }
 
-func (r *Resolver) getAfterStation(ctx context.Context, obj *model.Station) []*model.Station {
-	// todo: xo query for after station
-	return nil
+// FIXME: baforeとafterで取得している駅の前後の順番が逆なのでxoのクエリを見直す
+func (r *Resolver) getAfterStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
+	db, err := utils.SetupDB()
+	if err != nil {
+		return nil, err
+	}
+	cd := obj.StationCd
+	stations, err := models.AfterStationsByStationCD(ctx, db, cd)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(stations, "いくつあるのだろう")
+	station := stations[0]
+
+	return &model.Station{
+		StationCd:   station.StationCd,
+		LineName:    &station.LineName,
+		StationName: station.StationName,
+		Address:     &station.Address,
+	}, nil
 }

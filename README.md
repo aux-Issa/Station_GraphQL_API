@@ -60,7 +60,8 @@ order by st.e_sort
 ENDSQL
 `
 ### prevent overfetch by spliting resolver  
-####　cdで駅を検索するクエリ
+#### 　cdで駅を検索するクエリ  
+
 `
 xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T StationByCD -o models/ << ENDSQL
 select l.line_cd, l.line_name, s.station_cd, s.station_g_cd, s.station_name, s.address
@@ -106,7 +107,7 @@ ENDSQL
 
 #### 前の駅
 
-`
+```
 xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T BeforeStation -o models/ << ENDSQL
 <!-- joinされたテーブル(st2)から前の駅を抽出 -->
 select st2.station_cd,
@@ -120,7 +121,6 @@ select st2.station_cd,
        COALESCE(st2.station_cd, 0)   as before_station_cd,
        COALESCE(st2.station_name, '') as before_station_name,
        COALESCE(st2.address, '')      as before_station_address
-
 from station st
         inner join line li on st.line_cd = li.line_cd 
         left outer join junction sjb on st.line_cd = sjb.line_cd and st.station_cd = sjb.station_cd2 
@@ -130,14 +130,14 @@ from station st
         left outer join line s2l on st2.line_cd = s2l.line_cd 
         <!-- 接続駅(sja)と後の駅(st3)をジョイン -->
         left outer join station st3 on sja.line_cd = st3.line_cd and sja.station_cd2 = st3.station_cd 
-
 where st.station_cd = %%stationCD int%%
 ENDSQL
-`
+```
+
 
 #### 後の駅
 
-`
+```
 xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T AfterStation -o models/ << ENDSQL
 <!-- joinされたテーブル(st2)から前の駅を抽出 -->
 select st3.station_cd,
@@ -164,4 +164,4 @@ from station st
 
 where st.station_cd = %%stationCD int%%
 ENDSQL
-`
+```

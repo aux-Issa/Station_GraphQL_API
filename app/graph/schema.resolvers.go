@@ -28,7 +28,7 @@ func (r *stationResolver) BeforeStation(ctx context.Context, obj *model.Station)
 }
 
 func (r *stationResolver) AfterStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.getAfterStation(ctx, obj)
 }
 
 func (r *stationResolver) TransferStation(ctx context.Context, obj *model.Station) ([]*model.Station, error) {

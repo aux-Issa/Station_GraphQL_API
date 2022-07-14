@@ -19,8 +19,8 @@ type Resolver struct{}
 func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.Station, error) {
 	db, err := utils.SetupDB()
 	// models.StationConnsByStationCD(*stationCd)
-	stations, err := models.StationConnsByStationCD(ctx, db, *stationCd)
-	// stations, err := models.StationByCDsByStationCD(ctx, db, *stationCd)
+	// stations, err := models.StationConnsByStationCD(ctx, db, *stationCd)
+	stations, err := models.StationByCDsByStationCD(ctx, db, *stationCd)
 	if err != nil {
 		return nil, err
 	}
@@ -37,6 +37,27 @@ func (r *Resolver) getStationByCD(ctx context.Context, stationCd *int) (*model.S
 	}, nil
 }
 
+func (r *Resolver) getStationByName(ctx context.Context, stationName *string) ([]*model.Station, error) {
+	db, err := utils.SetupDB()
+	if err != nil {
+		return nil, err
+	}
+	stations, err := models.StationByNamesByStationName(ctx, db, *stationName)
+	if len(stations) == 0 {
+		return nil, errors.New("not found")
+	}
+	res := make([]*model.Station, len(stations))
+	for _, station := range stations {
+		res = append(res, &model.Station{
+			StationCd:   station.StationCd,
+			StationName: station.StationName,
+			LineName:    &station.LineName,
+			Address:     &station.Address,
+		})
+	}
+	return res, nil
+}
+
 func (r *Resolver) getTransferStaion(ctx context.Context, obj *model.Station) ([]*model.Station, error) {
 	db, err := utils.SetupDB()
 	if err != nil {
@@ -47,7 +68,7 @@ func (r *Resolver) getTransferStaion(ctx context.Context, obj *model.Station) ([
 	if err != nil {
 		return nil, err
 	}
-	// resp := make([]*model.Station, 0, len(records))
+
 	transferStations := make([]*model.Station, len(records))
 	for _, record := range records {
 		// &: メモリのaddressを示すので，型の＊と&はセットで使う

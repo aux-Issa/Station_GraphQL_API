@@ -58,6 +58,7 @@ where st.station_cd = %%stationCD int%%
 order by st.e_sort
 ENDSQL  `
 ### prevent overfetch by spliting resolver  
+####　cdで駅を検索するクエリ
 `xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T StationByCD -o models/ << ENDSQL
 select l.line_cd, l.line_name, s.station_cd, s.station_g_cd, s.station_name, s.address
 from station s
@@ -66,6 +67,17 @@ where s.station_cd = %%stationCD int%%
   and s.e_status = 0
 ENDSQL
 `
+#### 駅名で駅を検索する
+`
+xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T StationByName -o models/ << ENDSQL 
+select l.line_cd, l.line_name, s.station_cd, s.station_g_cd, s.station_name, s.address 
+from station s 
+inner join line l on s.line_cd = l.line_cd 
+where s.station_name = %%stationName int%% 
+and s.e_status = 0 
+ENDSQL
+`
+#### 乗り換え駅
 
 `xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M -B -T Transfer -o models/ << ENDSQL
 select s.station_cd,

@@ -42,6 +42,7 @@ func (r *Resolver) getStationByName(ctx context.Context, stationName *string) ([
 	if err != nil {
 		return nil, err
 	}
+
 	stations, err := models.StationByNamesByStationName(ctx, db, *stationName)
 	if len(stations) == 0 {
 		return nil, errors.New("not found")

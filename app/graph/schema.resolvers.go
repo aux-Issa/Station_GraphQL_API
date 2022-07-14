@@ -16,7 +16,7 @@ func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) 
 }
 
 func (r *queryResolver) StationByName(ctx context.Context, stationName *string) ([]*model.Station, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.getStationByName(ctx, stationName)
 }
 
 func (r *queryResolver) StationByCd(ctx context.Context, stationCd *int) (*model.Station, error) {

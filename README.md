@@ -73,7 +73,7 @@ xo query postgres://postgres:postgres@localhost:5432/postgres?sslmode=disable -M
 select l.line_cd, l.line_name, s.station_cd, s.station_g_cd, s.station_name, s.address 
 from station s 
 inner join line l on s.line_cd = l.line_cd 
-where s.station_name = %%stationName int%% 
+where s.station_name = %%stationName string%% 
 and s.e_status = 0 
 ENDSQL
 `

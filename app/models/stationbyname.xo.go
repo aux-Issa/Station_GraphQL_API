@@ -17,7 +17,7 @@ type StationByName struct {
 }
 
 // StationByNamesByStationName runs a custom query, returning results as StationByName.
-func StationByNamesByStationName(ctx context.Context, db DB, stationName int) ([]*StationByName, error) {
+func StationByNamesByStationName(ctx context.Context, db DB, stationName string) ([]*StationByName, error) {
 	// query
 	const sqlstr = `select l.line_cd, l.line_name, s.station_cd, s.station_g_cd, s.station_name, s.address ` +
 		`from station s ` +

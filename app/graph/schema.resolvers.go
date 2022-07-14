@@ -24,7 +24,7 @@ func (r *queryResolver) StationByCd(ctx context.Context, stationCd *int) (*model
 }
 
 func (r *stationResolver) BeforeStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
-	panic(fmt.Errorf("not implemented"))
+	return r.getBeforeStation(ctx, obj)
 }
 
 func (r *stationResolver) AfterStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
@@ -32,7 +32,6 @@ func (r *stationResolver) AfterStation(ctx context.Context, obj *model.Station) 
 }
 
 func (r *stationResolver) TransferStation(ctx context.Context, obj *model.Station) ([]*model.Station, error) {
-	// ここに実装を進めていこうと
 	return r.getTransferStaion(ctx, obj)
 }
 

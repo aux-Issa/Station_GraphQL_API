@@ -84,5 +84,29 @@ func (r *Resolver) getTransferStaion(ctx context.Context, obj *model.Station) ([
 	return transferStations, nil
 }
 
-// TODO: afterStationのxo生成とresolverの実装
-// TODO: bsforeStationnのxo生成とresolverの実装
+func (r *Resolver) getBeforeStation(ctx context.Context, obj *model.Station) (*model.Station, error) {
+	// todo: xo query for before station
+	db, err := utils.SetupDB()
+	if err != nil {
+		return nil, err
+	}
+	cd := obj.StationCd
+	stations, err := models.BeforeStationsByStationCD(ctx, db, cd)
+	if err != nil {
+		return nil, err
+	}
+	fmt.Println(stations, "いくつあるのだろう")
+	station := stations[0]
+
+	return &model.Station{
+		StationCd:   station.StationCd,
+		LineName:    &station.LineName,
+		StationName: station.StationName,
+		Address:     &station.Address,
+	}, nil
+}
+
+func (r *Resolver) getAfterStation(ctx context.Context, obj *model.Station) []*model.Station {
+	// todo: xo query for after station
+	return nil
+}

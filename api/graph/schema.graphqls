@@ -2,26 +2,26 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Todo {
-  id: ID!
-  text: String!
-  done: Boolean!
-  user: User!
-}
+# type Todo {
+#   id: ID!
+#   text: String!
+#   done: Boolean!
+#   user: User!
+# }
 
-type User {
-  id: ID!
-  name: String!
-}
+# type User {
+#   id: ID!
+#   name: String!
+# }
 
-input NewTodo {
-  text: String!
-  userId: String!
-}
+# input NewTodo {
+#   text: String!
+#   userId: String!
+# }
 
-type Mutation {
-  createTodo(input: NewTodo!): Todo!
-}
+# type Mutation {
+#   createTodo(input: NewTodo!): Todo!
+# }
 
 type Station {
   stationCD: Int!

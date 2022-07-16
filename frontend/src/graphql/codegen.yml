@@ -1,10 +1,9 @@
 overwrite: true
 schema: "../api/graph/schema.graphqls"
 documents:
-# 要修正
-  - "./graphql/queries/*.graphql"
+  - "./src/graphql/queries/*.graphql"
 generates:
-  web/src/generated/graphql.ts:
+  ./generated/graphql.ts:
     plugins:
       - "typescript"
       - "typescript-operations"

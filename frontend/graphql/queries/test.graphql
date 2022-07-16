@@ -1,0 +1,22 @@
+query stationByCD($id: Int!) {
+    stationByCD(stationCD: $id) {
+      lineName
+      stationCD
+      stationName
+      beforeStation {
+        lineName
+        stationCD
+        stationName
+        transferStation {
+          lineName
+          stationCD
+          stationName
+        }
+      }
+      afterStation {
+        lineName
+        stationCD
+        stationName
+      }
+    }
+}

@@ -5,20 +5,17 @@ import {GraphQLClient} from "graphql-request";
 import {getSdk} from "./graphql/generated/graphql";
 
 function App() {
+
   async function main() {
     const endpoint = "http://localhost:8080/graphql"
-    const client = new GraphQLClient(endpoint,
-      {headers: {
-        authorization:'Access-Control-Allow-Origin'
-      }}
-      // headers: () => ({ 'X-Sent-At-Time': Date.now() })
-    
-    )
+    const client = new GraphQLClient(endpoint)
     const sdk = getSdk(client)
-    const res = await sdk.stationByCD({
+
+    const res = await sdk.stationByCD(
+      {
         id: 1130201,
-    })
-    debugger
+      }
+    )
     console.log(res)
   }
   

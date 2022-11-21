@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/99designs/gqlgen v0.17.20
-	github.com/go-chi/chi v1.5.4
+	github.com/go-chi/chi/v4 v4.1.2+incompatible
 	github.com/gorilla/websocket v1.5.0
 	github.com/lib/pq v1.10.7
 	github.com/rs/cors v1.8.2

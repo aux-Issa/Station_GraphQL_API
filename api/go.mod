@@ -3,7 +3,7 @@ module github.com/aux-Issa/Station_GraphQL_API
 go 1.19
 
 require (
-	github.com/99designs/gqlgen v0.17.20
+	github.com/99designs/gqlgen v0.17.22
 	github.com/go-chi/chi/v4 v4.1.2+incompatible
 	github.com/gorilla/websocket v1.5.0
 	github.com/lib/pq v1.10.7
